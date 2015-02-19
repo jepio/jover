@@ -11,9 +11,9 @@ SRC_URI="http://projekt17.pub.lab.nm.ifi.lmu.de/ompp//downloads/${P}.tgz"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE=""
+IUSE="papi "
 
-DEPEND=""
+DEPEND="papi? ( dev-libs/papi )"
 RDEPEND="${DEPEND}"
 
 src_prepare() {
@@ -27,4 +27,14 @@ src_prepare() {
 	sed -i "26s/$/gcc/" Makefile.defs
 	# OMPFLAG
 	sed -i "30s/$/-fopenmp/" Makefile.defs
+	if use papi; then
+		sed -e "56s|$|usr/lib/libpapi.a|" \
+			-e "57s|$|/usr/include/|" -i Makefile.defs
+	fi
+}
+
+src_install() {
+	emake install || die "Install failed"
+	echo sed -i "s|${D}|/|" ${D}/usr/bin/kinst-ompp*
+	sed -i "s|${D}|/|" ${D}/usr/bin/kinst-ompp* || die "Failed to edit scripts."
 }
