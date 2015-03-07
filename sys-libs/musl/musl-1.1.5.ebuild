@@ -23,7 +23,7 @@ DEPEND=""
 RDEPEND="${DEPEND}"
 
 MUSLPATH="/usr/local/musl"
-CONF_FLAGS="--disable-shared --enable-gcc-wrapper"
+CONF_FLAGS="--enable-shared --enable-gcc-wrapper"
 
 pkg_setup() {
 	filter-flags -O2 -O3
