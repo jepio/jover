@@ -17,16 +17,16 @@ IUSE=""
 S="${S}/${PN}/"
 
 DEPEND="dev-cpp/gflags
-		dev-cpp/glog
-		sys-devel/libtool
-		dev-libs/libevent
-		dev-libs/boost
-		dev-libs/double-conversion
-		app-arch/lz4
-		app-arch/snappy
-		sys-libs/zlib
-		dev-libs/openssl
-		app-arch/xz-utils"
+	dev-cpp/glog
+	sys-devel/libtool
+	dev-libs/libevent
+	dev-libs/boost
+	dev-libs/double-conversion
+	app-arch/lz4
+	app-arch/snappy
+	sys-libs/zlib
+	dev-libs/openssl
+	app-arch/xz-utils"
 RDEPEND="${DEPEND}"
 
 src_prepare() {

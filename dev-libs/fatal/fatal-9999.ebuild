@@ -16,8 +16,8 @@ KEYWORDS="~amd64"
 IUSE="test"
 
 DEPEND="test? ( dev-cpp/glog
-				dev-cpp/gtest
-				dev-libs/folly )"
+		dev-cpp/gtest
+		dev-libs/folly )"
 RDEPEND="${DEPEND}"
 
 src_install() {
