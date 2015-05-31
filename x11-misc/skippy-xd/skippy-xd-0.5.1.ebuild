@@ -2,12 +2,12 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/x11-misc/skippy/skippy-0.5.0.ebuild,v 1.15 2012/05/05 04:53:46 jdhore Exp $
 
-EAPI=2
-inherit eutils toolchain-funcs
+EAPI=5
+inherit eutils toolchain-funcs git-r3
 
 DESCRIPTION="A full-screen task-switcher providing Apple Expose-like functionality with various WMs"
 HOMEPAGE="http://code.google.com/p/skippy-xd/"
-SRC_URI="https://github.com/richardgv/skippy-xd/archive/master.zip"
+EGIT_REPO_URI="https://github.com/richardgv/skippy-xd.git"
 
 LICENSE="GPL-2"
 SLOT="0"
