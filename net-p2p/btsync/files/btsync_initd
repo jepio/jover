@@ -10,6 +10,7 @@ BTSYNC_PIDFOLDER="/run/${BTSYNC_NAME}"
 BTSYNC_PIDFILE="${BTSYNC_PIDFOLDER}/${BTSYNC_NAME}.pid"
 BTSYNC_USER="${BTSYNC_NAME}"
 BTSYNC_GROUP="${BTSYNC_NAME}"
+BTSYNC_LOGDIR="/var/log/${BTSYNC_NAME}"
 
 depend() {
     need localmount net
@@ -22,11 +23,17 @@ start() {
         chown "${BTSYNC_USER}:${BTSYNC_GROUP}" "${BTSYNC_PIDFOLDER}"
     fi
 
+    if [ ! -d "${BTSYNC_LOGDIR}" ]; then
+        mkdir "${BTSYNC_LOGDIR}"
+        chown "${BTSYNC_USER}:${BTSYNC_GROUP}" "${BTSYNC_LOGDIR}"
+    fi
+
     ebegin "Starting ${BTSYNC_NAME}"
     start-stop-daemon --start --pidfile "${BTSYNC_PIDFILE}"		\
         --user "${BTSYNC_USER}"	--group "${BTSYNC_GROUP}"		\
         --exec "${BTSYNC_BINARY}"								\
-        -- --nodaemon --config "/etc/${BTSYNC_NAME}.conf"
+        -- --config "/etc/${BTSYNC_NAME}.conf"                  \
+        --log "/var/log/btsync/btsync.log"
     eend $?
 }
 
