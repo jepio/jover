@@ -29,10 +29,10 @@ QA_PREBUILT="/opt/${PN}/"
 src_install() {
 	dodoc "${S}/LICENSE.TXT"
 
-	newconfd "${FILESDIR}/${PN}_confd" "/${PN}"
+	newconfd "${FILESDIR}/${PN}_confd" "${PN}"
 
 	# system-v-init support
-	newinitd "${FILESDIR}/${PN}_initd" "/${PN}"
+	newinitd "${FILESDIR}/${PN}_initd" "${PN}"
 
 	# systemd support
 	systemd_dounit "${FILESDIR}/${PN}.service"
@@ -65,6 +65,7 @@ pkg_preinst() {
 		-e "s|\/\/ \"pid_file\" : \"/var/run/${PN}/${PN}.pid\"|   \"pid_file\" : \"${PID_FILE}\"|" "${D}/${PN}.conf"
 	insinto "/etc"
 	doins "${D}/${PN}.conf"
+	rm -f "${D}/${PN}.conf"
 }
 
 pkg_postinst() {
