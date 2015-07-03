@@ -52,7 +52,7 @@ src_install() {
 	dodir "${var_path}"
 	dodir "${var_path}/instances"
 	dodir "${var_path}/cache"
-	insinto /etc/polkit-1/localauthority/50-local.d/
-	doins "${FILESDIR}/50-nonrootlibvirt.pkla"
+	insinto /etc/polkit-1/rules.d
+	doins "${FILESDIR}/80-libvirt.rules"
 	dosym "/bin/false" "/usr/bin/selinuxenabled"
 }
