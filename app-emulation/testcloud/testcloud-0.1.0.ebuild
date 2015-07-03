@@ -18,8 +18,9 @@ IUSE="doc"
 
 DEPEND="app-emulation/libvirt
 	dev-python/libvirt-python[${PYTHON_USEDEP}]
-	app-emulation/libguestfs
+	app-emulation/libguestfs[ocaml]
 	app-emulation/libguestfs-appliance
+	app-emulation/virt-manager
 	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
     doc? ( dev-python/sphinx )"
