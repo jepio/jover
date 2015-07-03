@@ -5,7 +5,7 @@
 EAPI=5
 DISTUTILS_SINGLE_IMPL=1
 PYTHON_COMPAT=( python2_7 )
-inherit distutils-r1 user
+inherit distutils-r1 user eutils
 
 DESCRIPTION="testcloud is a small helper script to download and boot cloud images locally."
 HOMEPAGE="http://github.com/Rorosha/testcloud"
@@ -39,6 +39,8 @@ pkg_setup() {
 pkg_postinst() {
 	einfo "Requires running libvirtd service"
 	einfo "To use as non-root add your user to the testcloud group"
+	einfo "The user also needs to have sudo permisions with the NOPASSWD"
+	einfo "option for /sbin/arp"
 }
 
 src_install() {
@@ -61,4 +63,5 @@ src_install() {
 	insinto "/usr/share/${PN}/"
 	doins  "ssh_config"
 	newins "conf/settings-example.py" settings.py
+	make_wrapper "arp" "sudo /sbin/arp"
 }
