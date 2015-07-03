@@ -33,7 +33,7 @@ pkg_setup() {
 	enewuser "testcloud" -1 -1 -1 "testcloud"
 }
 
-pkg_info() {
+pkg_postinst() {
 	einfo "Requires running libvirtd service"
 	einfo "To use as non-root add your user to the testcloud group"
 }
@@ -54,4 +54,5 @@ src_install() {
 	dodir "${var_path}/cache"
 	insinto /etc/polkit-1/localauthority/50-local.d/
 	doins "${FILESDIR}/50-nonrootlibvirt.pkla"
+	dosym "/bin/false" "/usr/bin/selinuxenabled"
 }
