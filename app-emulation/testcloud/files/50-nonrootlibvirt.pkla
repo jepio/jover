@@ -1,0 +1,6 @@
+[nonroot libvirt system connection]
+Identity=unix-group:testcloud
+Action=org.libvirt.unix.manage
+ResultActive=yes
+ResultInactive=yes
+ResultAny=yes
