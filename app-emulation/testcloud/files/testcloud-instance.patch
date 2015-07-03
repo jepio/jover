@@ -1,0 +1,11 @@
+--- a/testcloud/instance.py	2015-07-03 21:54:23.094580208 +0200
++++ b/testcloud/instance.py	2015-07-03 21:54:12.431580624 +0200
+@@ -92,7 +92,7 @@ def list_instances(connection='qemu:///s
+ 
+     instances = {}
+     for instance in all_instances:
+-        if instance not in all_instances:
++        if instance not in system_domains:
+             raise TestcloudInstanceError("instance {} exists in instances/ "
+                                          "but is not a libvirt domain on "
+                                          "{}".format(instance, connection))

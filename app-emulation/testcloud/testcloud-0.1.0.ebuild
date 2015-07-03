@@ -21,12 +21,14 @@ DEPEND="app-emulation/libvirt
 	app-emulation/libguestfs[ocaml]
 	app-emulation/libguestfs-appliance
 	app-emulation/virt-manager
+	app-emulation/qemu[spice,usbredir]
 	dev-python/requests[${PYTHON_USEDEP}]
 	dev-python/setuptools[${PYTHON_USEDEP}]
     doc? ( dev-python/sphinx )"
 RDEPEND="${DEPEND}"
 
 DOCS=( README.rst )
+PATCHES=( "${FILESDIR}/${PN}-instance.patch" )
 
 pkg_setup() {
 	python-single-r1_pkg_setup
