@@ -11,7 +11,7 @@ DESCRIPTION="testcloud is a small helper script to download and boot cloud image
 HOMEPAGE="http://github.com/Rorosha/testcloud"
 SRC_URI="https://github.com/Rorosha/${PN}/archive/${PV}.tar.gz"
 
-LICENSE="GPL-2"
+LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE="doc"
@@ -26,7 +26,7 @@ DEPEND="app-emulation/libvirt
     doc? ( dev-python/sphinx )"
 RDEPEND="${DEPEND}"
 
-DOCS=( README.rst ssh_config )
+DOCS=( README.rst )
 
 pkg_setup() {
 	python-single-r1_pkg_setup
@@ -56,4 +56,7 @@ src_install() {
 	insinto /etc/polkit-1/rules.d
 	doins "${FILESDIR}/80-libvirt.rules"
 	dosym "/bin/false" "/usr/bin/selinuxenabled"
+	insinto "/usr/share/${PN}/"
+	doins  "ssh_config"
+	newins "conf/settings-example.py" settings.py
 }
