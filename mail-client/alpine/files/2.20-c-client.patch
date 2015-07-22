@@ -55,6 +55,25 @@
  
  CLEANFILES = date.c
  
+--- web/src/alpined.d/Makefile.am.old	2015-07-22 02:07:15.890671352 +0200
++++ web/src/alpined.d/Makefile.am	2015-07-22 02:07:34.334671022 +0200
+@@ -35,7 +35,6 @@ LDADD = local.o \
+ 	@top_srcdir@/pith/libpith.a \
+ 	@top_srcdir@/pith/osdep/libpithosd.a \
+ 	@top_srcdir@/pith/charconv/libpithcc.a \
+-	@top_srcdir@/c-client/c-client.a \
+ 	$(WEB_PUBCOOKIE_LIB)
+ 
+ loclib_LTLIBRARIES = libwpcomm.la
+@@ -46,7 +45,7 @@ libwpcomm_la_LDFLAGS = -rpath '$(loclibd
+ 
+ AM_CPPFLAGS = -I@top_builddir@/include -I@top_srcdir@/include
+ 
+-AM_LDFLAGS = `cat @top_srcdir@/c-client/LDFLAGS`
++AM_LDFLAGS = -lc-client
+ 
+ CLEANFILES = local.c
+ 
 diff --git a/alpine/callbacks.c b/alpine/callbacks.c
 new file mode 100644
 index 0000000..e92beb5
