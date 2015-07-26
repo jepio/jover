@@ -11,7 +11,7 @@ inherit toolchain-funcs autotools
 #git-r3
 
 SRC_URI="http://cgit.freedesktop.org/gummiboot/snapshot/${PN}-${PV}.tar.gz"
-LICENSE="LGPL"
+LICENSE="LGPL-2.1"
 SLOT="0"
 KEYWORDS="~amd64"
 IUSE=""
