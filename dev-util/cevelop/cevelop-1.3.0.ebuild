@@ -6,16 +6,30 @@ inherit eutils
 
 DESCRIPTION="The C++ IDE for professional developers."
 HOMEPAGE="https://www.cevelop.com"
-SRC_URI="https://www.cevelop.com/cevelop/downloads/${P}-201501051140-linux.gtk.x86_64.tar.gz"
+DATE=201507061451
+URI="${HOMEPAGE}/${PN}/downloads/"
+COMMON_FILENAME="${P}-${DATE}-linux.gtk"
+SRC_URI="amd64? ( ${URI}${COMMON_FILENAME}.x86_64.tar.gz )
+	x86? ( ${URI}${COMMON_FILENAME}.x86.tar.gz )"
 
 S="${WORKDIR}/${PN}"
-LICENSE=""
+LICENSE="Cevelop"
 SLOT="0"
-KEYWORDS="~amd64"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 
 DEPEND=""
 RDEPEND="${DEPEND}"
+
+RESTRICT="fetch"
+
+pkg_nofetch() {
+	einfo "Please download the file corresponding to your arch"
+	einfo "  - ${COMMON_FILENAME}.x86_64.tar.gz"
+	einfo "  - ${COMMON_FILENAME}.x86.tar.gz"
+	einfo "from ${URI} and place it"
+	einfo "in ${DISTDIR}"
+}
 
 src_install() {
 	dodir /opt/cevelop/
