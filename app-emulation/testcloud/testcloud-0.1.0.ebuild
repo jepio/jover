@@ -28,7 +28,8 @@ DEPEND="app-emulation/libvirt
 RDEPEND="${DEPEND}"
 
 DOCS=( README.rst )
-PATCHES=( "${FILESDIR}/${PN}-instance.patch" )
+PATCHES=( "${FILESDIR}/${P}-instance.patch"
+	"${FILESDIR}/${P}-util.patch" )
 
 pkg_setup() {
 	python-single-r1_pkg_setup
@@ -39,8 +40,6 @@ pkg_setup() {
 pkg_postinst() {
 	einfo "Requires running libvirtd service"
 	einfo "To use as non-root add your user to the testcloud group"
-	einfo "The user also needs to have sudo permisions with the NOPASSWD"
-	einfo "option for /sbin/arp"
 }
 
 src_install() {
@@ -63,5 +62,4 @@ src_install() {
 	insinto "/usr/share/${PN}/"
 	doins  "ssh_config"
 	newins "conf/settings-example.py" settings.py
-	make_wrapper "arp" "sudo /sbin/arp"
 }

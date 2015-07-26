@@ -1,0 +1,11 @@
+--- a/testcloud/util.py	2015-07-26 20:39:02.290190725 +0200
++++ b/testcloud/util.py	2015-07-26 20:39:12.921190423 +0200
+@@ -51,7 +51,7 @@ def find_ip_from_mac(mac):
+     """Look through ``arp -an`` output for the IP of the provided MAC address.
+     """
+ 
+-    arp_list = subprocess.check_output(["arp", "-an"]).split("\n")
++    arp_list = subprocess.check_output(["/sbin/arp", "-an"]).split("\n")
+     for entry in arp_list:
+         if mac in entry:
+             return entry.split()[1][1:-1]
