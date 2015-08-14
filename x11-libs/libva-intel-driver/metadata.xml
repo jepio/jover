@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<use>
+		<flag name='drm'>Enables VA/DRM API support.</flag>
+		<flag name='g45-h264'>Enables experimental accelerated H264 decoding on 
+			GMA 4500 cards.</flag>
+    </use>
+</pkgmetadata>
