@@ -1,6 +1,6 @@
-# Copyright 1999-2011 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI="4"
 EGIT_REPO_URI="git://github.com/geany/geany"
@@ -10,9 +10,9 @@ DESCRIPTION="GTK+ based fast and lightweight IDE"
 HOMEPAGE="http://www.geany.org"
 SRC_URI=""
 
-LICENSE="GPL-2 Scintilla"
+LICENSE="GPL-2 HPND"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS=""
 IUSE="+vte"
 
 COMMON_DEPEND="
@@ -20,7 +20,7 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.16:2
 	"
 DEPEND="${COMMON_DEPEND}
-	dev-util/pkgconfig
+	virtual/pkgconfig
 	dev-util/intltool
 	sys-devel/gettext
 	"
