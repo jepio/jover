@@ -1,0 +1,11 @@
+--- backend/src/CMakeLists.txt.old	2015-08-03 12:03:03.907952187 +0200
++++ backend/src/CMakeLists.txt	2015-08-03 12:03:30.625951708 +0200
+@@ -153,7 +153,7 @@ endif (NOT (USE_STANDALONE_GBE_COMPILER
+ 
+ add_library(gbeinterp SHARED gbe_bin_interpreter.cpp)
+ 
+-if (LLVM_VERSION_NODOT VERSION_EQUAL 34)
++if (LLVM_VERSION_NODOT VERSION_EQUAL 34 OR LLVM_VERSION_NODOT VERSION_GREATER 34)
+   find_library(TERMINFO NAMES tinfo ncurses)
+   if (${TERMINFO} STREQUAL TERMINFO-NOTFOUND)
+     message(FATAL_ERROR "no libtinfo or libncurses is found in system")
