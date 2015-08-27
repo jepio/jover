@@ -1,0 +1,46 @@
+diff --git a/libdevice/vaapi/VaapiGlobalContext.cpp b/libdevice/vaapi/VaapiGlobalContext.cpp
+index c19ed07..5127a27 100644
+--- a/libdevice/vaapi/VaapiGlobalContext.cpp
++++ b/libdevice/vaapi/VaapiGlobalContext.cpp
+@@ -33,7 +33,7 @@
+ namespace gnash {
+ 
+ VaapiGlobalContext::VaapiGlobalContext(std::unique_ptr<VaapiDisplay> display)
+-    : _display(display)
++    : _display(std::move(display))
+ {
+     GNASH_REPORT_FUNCTION;
+ 
+@@ -145,7 +145,7 @@ VaapiGlobalContext *VaapiGlobalContext::get()
+             if (!dpy.get()) {
+                 return NULL;
+             }
+-            vaapi_global_context.reset(new VaapiGlobalContext(dpy));
++            vaapi_global_context.reset(new VaapiGlobalContext(std::move(dpy)));
+         }
+         catch (...) {
+             vaapi_set_is_enabled(false);
+diff --git a/libdevice/vaapi/VaapiContext.h b/libdevice/vaapi/VaapiContext.h
+index 8d9de72..c49d48a 100644
+--- a/libdevice/vaapi/VaapiContext.h
++++ b/libdevice/vaapi/VaapiContext.h
+@@ -84,7 +84,7 @@ public:
+     void releaseSurface(std::shared_ptr<VaapiSurface> surface);
+ 
+     /// Set user data
+-    void setData(std::unique_ptr<VaapiContextData> user_data) { _user_data = user_data; }
++    void setData(std::unique_ptr<VaapiContextData> user_data) { _user_data = std::move(user_data); }
+ 
+     /// Get user data
+     VaapiContextData *getData() const { return _user_data.get(); }
+--- a/gui/gtk/gtk_glue_agg_vaapi.cpp	2015-08-21 13:54:25.545817775 +0200
++++ b/gui/gtk/gtk_glue_agg_vaapi.cpp	2015-08-21 13:56:23.580814419 +0200
+@@ -305,7 +305,7 @@ GtkAggVaapiGlue::getVideoWindow(std::sha
+         contextData.reset(new VaapiVideoWindow(parent_window, rect));
+         if (!contextData.get())
+             return NULL;
+-        context->setData(contextData);
++        context->setData(std::move(contextData));
+     }
+     return dynamic_cast<VaapiVideoWindow *>(context->getData());
+ }

@@ -143,7 +143,7 @@ src_prepare() {
 	# Fix libamf includes
 	epatch "${FILESDIR}"/${PN}-0.8.10-amf-include.patch
 
-	epatch_user
+	epatch "${FILESDIR}"/${PN}-0.8.10-unique-ptr.patch
 	eautoreconf
 }
 src_configure() {
