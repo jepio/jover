@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<use>
+		<flag name="papi">
+			Enable support for hardware performance counters through the papi
+			library (<pkg>dev-libs/papi</pkg>)
+		</flag>
+	</use>
+</pkgmetadata>
