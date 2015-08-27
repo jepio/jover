@@ -1,0 +1,48 @@
+--- a/CMakeModules/FindLAPACKE.cmake
++++ b/CMakeModules/FindLAPACKE.cmake
+@@ -13,13 +13,35 @@ IF(NOT LAPACKE_ROOT AND ENV{LAPACKEDIR})
+   SET(LAPACKE_ROOT $ENV{LAPACKEDIR})
+ ENDIF()
+ 
++SET(LAPACK_LIBRARIES)
++SET(LAPACK_INCLUDE_DIR)
++
+ # Check if we can use PkgConfig
+-FIND_PACKAGE(PkgConfig)
++FIND_PACKAGE(PkgConfig REQUIRED)
+ 
+ #Determine from PKG
+-IF(PKG_CONFIG_FOUND AND NOT LAPACKE_ROOT)
+-  PKG_CHECK_MODULES( PKG_LAPACKE QUIET "lapacke")
+-ENDIF()
++PKG_CHECK_MODULES(PKG_LAPACKE "lapacke")
++if(PKG_LAPACKE_FOUND)
++    foreach(PKG_LIB ${PKG_LAPACKE_LIBRARIES})
++        find_library(${PKG_LIB}_LIBRARY NAMES ${PKG_LIB} HINTS ${PKG_LAPACKE_LIBRARY_DIRS})
++        if(NOT ${PKG_LIB}_LIBRARY)
++            message(FATAL_ERROR "Something is wrong in your pkg-config file - lib ${PKG_LIB} not found in ${PKG_LAPACKE_LIBRARY_DIRS}")
++        endif(NOT ${PKG_LIB}_LIBRARY)
++        list(APPEND LAPACK_LIBRARIES ${${PKG_LIB}_LIBRARY})
++    endforeach(PKG_LIB)
++    list(APPEND LAPACK_INCLUDE_DIR ${PKG_LAPACKE_INCLUDE_DIRS})
++    # If this is empty it means it's probably /usr/include, verify
++    if(NOT LAPACK_INCLUDE_DIR)
++        FIND_PATH(LAPACK_INCLUDE_DIR
++                  NAMES "lapacke.h"
++                  PATHS /usr/include
++                  DOC "Lapacke include directory")
++    endif(NOT LAPACK_INCLUDE_DIR)
++    message(STATUS "Found Lapack library: ${LAPACK_LIBRARIES}")
++    find_package_handle_standard_args(LAPACK DEFAULT_MSG LAPACK_INCLUDE_DIR LAPACK_LIBRARIES)
++    mark_as_advanced(LAPACK_INCLUDES LAPACK_LIBRARIES)
++else(PKG_LAPACKE_FOUND)
++message(STATUS "No PkgConfig configuration for LAPACKE found; starting upstream style search.")
+ 
+ IF(LAPACKE_ROOT)
+     #find libs
+@@ -101,3 +123,5 @@ FIND_PACKAGE_HANDLE_STANDARD_ARGS(LAPACK
+   LAPACK_INCLUDE_DIR LAPACK_LIBRARIES)
+ 
+ MARK_AS_ADVANCED(LAPACK_INCLUDES LAPACK_LIBRARIES)
++
++endif(PKG_LAPACKE_FOUND)
