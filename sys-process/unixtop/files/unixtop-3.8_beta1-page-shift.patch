@@ -1,0 +1,11 @@
+--- top-3.8beta1/machine/m_linux.c.old	2015-09-08 15:14:06.897050226 +0200
++++ top-3.8beta1/machine/m_linux.c	2015-09-08 14:51:06.072031333 +0200
+@@ -68,7 +68,7 @@
+ #include <sys/vfs.h>
+ 
+ #include <sys/param.h>		/* for HZ */
+-#include <asm/page.h>		/* for PAGE_SHIFT */
++#include <sys/user.h>		/* for PAGE_SHIFT */
+ 
+ #if 0
+ #include <linux/proc_fs.h>	/* for PROC_SUPER_MAGIC */
