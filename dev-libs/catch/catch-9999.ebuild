@@ -13,7 +13,7 @@ EGIT_REPO_URI="https://github.com/philsquared/Catch.git"
 
 LICENSE="Boost-1.0"
 SLOT="0"
-KEYWORDS="amd64"
+KEYWORDS=""
 IUSE="doc"
 
 DEPEND=""
