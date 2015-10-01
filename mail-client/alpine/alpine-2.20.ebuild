@@ -31,15 +31,11 @@ RDEPEND="${DEPEND}
 	!onlyalpine? ( !mail-client/pine )
 	!<=net-mail/uw-imap-2004g"
 
-pkg_setup() {
-	if use smime && use topal ; then
-		ewarn "You can not have USE='smime topal'. Assuming topal is more important."
-	fi
-}
+REQUIRED_USE="^^ ( topal smime )"
 
 src_prepare() {
 	use chappa && epatch "${DISTDIR}/${P}-chappa-${CHAPPA_PL}-all.patch.gz"
-	use topal && epatch /usr/share/topal/patches/"${P}".patch-{1,2}
+	use topal && epatch  "${FILESDIR}/${P}".patch-{1,2}
 
 	# do not use the bundled c-client
 	ebegin "Unbundling the c-client library"
@@ -80,7 +76,7 @@ src_configure() {
 		$(use_with spell simple-spellcheck aspell) \
 		$(use_enable nls) \
 		$(use_with ipv6) \
-		$(use topal || use_with smime) \
+		$(use_with smime) \
 		${myconf}
 }
 
