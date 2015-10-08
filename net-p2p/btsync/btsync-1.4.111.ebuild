@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 
@@ -55,13 +55,13 @@ pkg_preinst() {
 	STORAGE_PATH="/var/lib/${PN}"
 	PID_FILE="/run/${PN}/${PN}.pid"
 	"${D}/opt/${PN}/bin/${PN}" --dump-sample-config > "${D}/${PN}.conf"
-	sed -i \
-		-e "s|\"password\" : \"password\"|\"password\" : \"\"|"	\
-		-e "s|\"device_name\": \"My Sync Device\"|\"device_name\": \"$(hostname -f 2>/dev/null||hostname)\"|"	\
-		-e "s|\"login\" : \"admin\"|\"login\" : \"${PN}\"|"														\
-		-e "s|\"listen\" : \"0.0.0.0:8888\"|\"listen\" : \"127.0.0.1:8888\"|"					\
-		-e "s|\"storage_path\" : \"/home/user/.sync\"|\"storage_path\" : \"${STORAGE_PATH}\"|"					\
-		-e "/\/\/ uncomment next line if you want to set location of pid file/d" 								\
+	sed -i															\
+		-e "s|\"password\" : \"password\"|\"password\" : \"\"|"								\
+		-e "s|\"device_name\": \"My Sync Device\"|\"device_name\": \"$(hostname -f 2>/dev/null||hostname)\"|"		\
+		-e "s|\"login\" : \"admin\"|\"login\" : \"${PN}\"|"								\
+		-e "s|\"listen\" : \"0.0.0.0:8888\"|\"listen\" : \"127.0.0.1:8888\"|"						\
+		-e "s|\"storage_path\" : \"/home/user/.sync\"|\"storage_path\" : \"${STORAGE_PATH}\"|"				\
+		-e "/\/\/ uncomment next line if you want to set location of pid file/d"					\
 		-e "s|\/\/ \"pid_file\" : \"/var/run/${PN}/${PN}.pid\"|   \"pid_file\" : \"${PID_FILE}\"|" "${D}/${PN}.conf"
 	insinto "/etc"
 	doins "${D}/${PN}.conf"
@@ -69,28 +69,28 @@ pkg_preinst() {
 }
 
 pkg_postinst() {
-if [ $(get_version_component_range 2) -ge 4 ]; then
-	ewarn "After installing the btsync 1.4 branch you will be unable to use your working"
-	ewarn "btsync folder(s) if you subsequently downgrade to btsync versions <1.4."
-fi
-einfo "Auto-generated configuration file is located at /etc/btsync.conf"
-einfo "(use this file as a template for user-level privilege service units)"
-einfo ""
-einfo "systemd"
-einfo "btsync.service:"
-einfo " run as a system service as user/group btsync:btsync"
-einfo " uses /var/lib/btsync for btsync working data"
-einfo "btsync@<user>.service"
-einfo " run as a system service but with user privilege"
-einfo " uses /home/<user>/.btsync/btsync.conf for btsync working data"
-einfo "btsync_user.service"
-einfo " run as a standard user service"
-einfo " uses /home/<user>/.btsync/btsync.conf for btsync working data"
-einfo ""
-einfo "Ensure you open the following ports in your firewall:"
-einfo " btsync.conf specified sync listening port (UDP/TCP)"
-einfo " port 3838 (UDP) for DHT tracking"
-einfo ""
-einfo "WebUI listens on (configurable):"
-einfo "localhost:8888"
+	if [ $(get_version_component_range 2) -ge 4 ]; then
+		ewarn "After installing the btsync 1.4 branch you will be unable to use your working"
+		ewarn "btsync folder(s) if you subsequently downgrade to btsync versions <1.4."
+	fi
+	einfo "Auto-generated configuration file is located at /etc/btsync.conf"
+	einfo "(use this file as a template for user-level privilege service units)"
+	einfo
+	einfo "systemd"
+	einfo "btsync.service:"
+	einfo "\trun as a system service as user/group btsync:btsync"
+	einfo "\tuses /var/lib/btsync for btsync working data"
+	einfo "btsync@<user>.service"
+	einfo "\trun as a system service but with user privilege"
+	einfo "\tuses /home/<user>/.btsync/btsync.conf for btsync working data"
+	einfo "btsync_user.service"
+	einfo "\trun as a standard user service"
+	einfo "\tuses /home/<user>/.btsync/btsync.conf for btsync working data"
+	einfo
+	einfo "Ensure you open the following ports in your firewall:"
+	einfo "\tbtsync.conf specified sync listening port (UDP/TCP)"
+	einfo "\tport 3838 (UDP) for DHT tracking"
+	einfo
+	einfo "WebUI listens on (configurable):"
+	einfo "\tlocalhost:8888"
 }
