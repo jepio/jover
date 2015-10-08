@@ -34,8 +34,10 @@ start() {
 	start-stop-daemon --start --pidfile "${BTSYNC_PIDFILE}"		\
 		--user "${BTSYNC_USER}"	--group "${BTSYNC_GROUP}"	\
 		--exec "${BTSYNC_BINARY}"				\
+		--background						\
 		-- --config "/etc/${BTSYNC_NAME}.conf"			\
 		--log "/var/log/btsync/btsync.log"			\
+		--nodaemon
 	eend $?
 }
 
