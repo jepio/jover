@@ -12,45 +12,43 @@ BTSYNC_USER="${BTSYNC_NAME}"
 BTSYNC_GROUP="${BTSYNC_NAME}"
 BTSYNC_LOGDIR="/var/log/${BTSYNC_NAME}"
 
+extra_started_commands="reload"
+
 depend() {
-    need localmount net
-    after bootmisc
+	need localmount net
+	after bootmisc
 }
 
 start() {
-    if [ ! -d "${BTSYNC_PIDFOLDER}" ]; then
-        mkdir "${BTSYNC_PIDFOLDER}"
-        chown "${BTSYNC_USER}:${BTSYNC_GROUP}" "${BTSYNC_PIDFOLDER}"
-    fi
+	if [ ! -d "${BTSYNC_PIDFOLDER}" ]; then
+		mkdir "${BTSYNC_PIDFOLDER}"
+		chown "${BTSYNC_USER}:${BTSYNC_GROUP}" "${BTSYNC_PIDFOLDER}"
+	fi
 
-    if [ ! -d "${BTSYNC_LOGDIR}" ]; then
-        mkdir "${BTSYNC_LOGDIR}"
-        chown "${BTSYNC_USER}:${BTSYNC_GROUP}" "${BTSYNC_LOGDIR}"
-    fi
+	if [ ! -d "${BTSYNC_LOGDIR}" ]; then
+		mkdir "${BTSYNC_LOGDIR}"
+		chown "${BTSYNC_USER}:${BTSYNC_GROUP}" "${BTSYNC_LOGDIR}"
+	fi
 
-    ebegin "Starting ${BTSYNC_NAME}"
-    start-stop-daemon --start --pidfile "${BTSYNC_PIDFILE}"		\
-        --user "${BTSYNC_USER}"	--group "${BTSYNC_GROUP}"		\
-        --exec "${BTSYNC_BINARY}"								\
-        -- --config "/etc/${BTSYNC_NAME}.conf"                  \
-        --log "/var/log/btsync/btsync.log"
-    eend $?
+	ebegin "Starting ${BTSYNC_NAME}"
+	start-stop-daemon --start --pidfile "${BTSYNC_PIDFILE}"		\
+		--user "${BTSYNC_USER}"	--group "${BTSYNC_GROUP}"	\
+		--exec "${BTSYNC_BINARY}"				\
+		-- --config "/etc/${BTSYNC_NAME}.conf"			\
+		--log "/var/log/btsync/btsync.log"			\
+	eend $?
 }
 
 stop() {
 	ebegin "Stopping ${BTSYNC_NAME}"
-
-	start-stop-daemon --stop --exec "${BTSYNC_BINARY}"			\
-	    --pidfile "${BTSYNC_PIDFILE}"
-
+	start-stop-daemon --stop --exec "${BTSYNC_BINARY}"		\
+		--pidfile "${BTSYNC_PIDFILE}"
 	eend $?
 }
 
 reload() {
 	ebegin "Reloading ${BTSYNC_NAME}"
-
 	start-stop-daemon --signal HUP --exec "${BTSYNC_BINARY}"	\
 	    --pidfile "${BTSYNC_PIDFILE}"
-
 	eend $?
 }
