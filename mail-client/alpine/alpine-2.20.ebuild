@@ -1,8 +1,8 @@
-# Copyright 1999-2012 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/mail-client/alpine/alpine-2.00-r5.ebuild,v 1.9 2012/12/30 16:46:12 armin76 Exp $
+# $Id$
 
-EAPI=4
+EAPI=5
 
 inherit eutils flag-o-matic autotools multilib toolchain-funcs
 
@@ -16,26 +16,22 @@ SRC_URI="http://patches.freeiz.com/alpine/release/src/${P}.tar.xz
 LICENSE="Apache-2.0"
 SLOT="0"
 KEYWORDS="~amd64"
-IUSE="doc ipv6 kerberos ldap nls onlyalpine passfile smime spell ssl threads topal +chappa"
+IUSE="doc ipv6 kerberos ldap nls onlyalpine passfile smime spell ssl threads +chappa"
 
 DEPEND="virtual/pam
-	>=net-libs/c-client-2007f-r4[topal=,chappa=]
-	>=sys-libs/ncurses-5.1
-	ssl? ( dev-libs/openssl )
+	>=net-libs/c-client-2007f-r4[-topal,chappa=]
+	sys-libs/ncurses:0=
+	ssl? ( dev-libs/openssl:0 )
 	ldap? ( net-nds/openldap )
 	kerberos? ( app-crypt/mit-krb5 )
-	spell? ( app-text/aspell )
-	topal? ( >=net-mail/topal-72 )"
+	spell? ( app-text/aspell )"
 RDEPEND="${DEPEND}
 	app-misc/mime-types
 	!onlyalpine? ( !mail-client/pine )
 	!<=net-mail/uw-imap-2004g"
 
-REQUIRED_USE="^^ ( topal smime )"
-
 src_prepare() {
 	use chappa && epatch "${DISTDIR}/${P}-chappa-${CHAPPA_PL}-all.patch.gz"
-	use topal && epatch  "${FILESDIR}/${P}".patch-{1,2}
 
 	# do not use the bundled c-client
 	ebegin "Unbundling the c-client library"
@@ -101,4 +97,9 @@ src_install() {
 		docinto html/tech-notes
 		dohtml -r doc/tech-notes/
 	fi
+}
+
+pkg_postinst() {
+	elog "For gpg integration emerge net-mail/topal-76 and configure"
+	elog "according to the topal manual."
 }
