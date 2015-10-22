@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI=4
+EAPI=5
 
 inherit eutils flag-o-matic autotools multilib toolchain-funcs
 
@@ -20,8 +20,8 @@ IUSE="doc ipv6 kerberos ldap nls onlyalpine passfile smime spell ssl threads +ch
 
 DEPEND="virtual/pam
 	>=net-libs/c-client-2007f-r4[-topal,chappa=]
-	>=sys-libs/ncurses-5.1
-	ssl? ( dev-libs/openssl )
+	sys-libs/ncurses:0=
+	ssl? ( dev-libs/openssl:0 )
 	ldap? ( net-nds/openldap )
 	kerberos? ( app-crypt/mit-krb5 )
 	spell? ( app-text/aspell )"
