@@ -21,7 +21,7 @@ RDEPEND=""
 S="${WORKDIR}"/${PN}-${P}
 
 src_install() {
-	emake DESTDIR="${ED}" install
+	local my_prefix="${ED}/usr"
+	emake PREFIX="${my_prefix}" MANDIR="${my_prefix}/share/man" install
 	dodoc CHANGES README TODO
-	doman vmtouch.8
 }
