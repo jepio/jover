@@ -4,7 +4,7 @@
 
 EAPI="5"
 
-inherit eutils multiprocessing
+inherit eutils multiprocessing toolchain-funcs
 
 DESCRIPTION="Port of many Plan 9 programs and libraries"
 HOMEPAGE="http://swtch.com/plan9port/"
@@ -13,9 +13,12 @@ SRC_URI="https://${PN}.googlecode.com/files/${P}.tgz"
 LICENSE="9base BSD-4 MIT LGPL-2.1 BigelowHolmes"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="X"
+IUSE="X aqua truetype"
+REQUIRED_USE="?? ( X aqua )"
 
-DEPEND="X? ( x11-apps/xauth )"
+DEPEND="X? ( x11-apps/xauth )
+	truetype? ( media-libs/freetype
+	            media-libs/fontconfig )"
 RDEPEND="${DEPEND}"
 
 S="${WORKDIR}/${PN}"
@@ -26,6 +29,10 @@ QA_MULTILIB_PATHS="${PLAN9}/.*/.*"
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-"{noexecstack,cflags,builderr}".patch"
+	case ${CHOST} in
+		*freebsd10.*)  # patch 9l to use -pthread also on FreeBSD-10
+			epatch "${FILESDIR}/${PN}-freebsd-10.patch" ;;
+	esac
 
 	# don't hardcode /bin and /usr/bin in PATH
 	sed -i '/PATH/s,/bin:/usr/bin:,,' INSTALL || die "sed on INSTALL failed"
@@ -45,15 +52,28 @@ src_prepare() {
 }
 
 src_configure() {
+	local myconf=()
 	if use X; then
-		echo "X11=${EPREFIX}/usr" >> LOCAL.config
+		myconf+=("X11=${EPREFIX}/usr" WSYSTYPE=x11)
+	elif use aqua; then
+		local wsystype=$(echo ${MACOSX_DEPLOYMENT_TARGET} |
+		awk '{if ($1 > 10.5) print "osx-cocoa"; else print "osx"}')
+		myconf+=("WSYSTYPE=${wsystype}")
 	else
-		echo "WSYSTYPE=nowsys" >> LOCAL.config
+		myconf+=(WSYSTYPE=nowsys)
 	fi
+
+	if use truetype; then
+		myconf+=(FONTSRV=fontsrv)
+	else
+		myconf+=(FONTSRV=)
+	fi
+	printf '%s\n' "${myconf[@]}" >> LOCAL.config
 }
 
 src_compile() {
 	export NPROC=$(makeopts_jobs)
+	export CC9=$(tc-getCC)
 
 	# The INSTALL script builds mk then [re]builds everything using that
 	einfo "Compiling Plan 9 from User Space can take a very long time"
