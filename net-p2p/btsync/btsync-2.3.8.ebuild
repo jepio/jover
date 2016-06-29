@@ -40,8 +40,8 @@ src_install() {
 	insinto "/opt/${NAME}"
 	doins LICENSE.TXT
 
-	newconfd "${FILESDIR}/${P/-/_}_initd" "${PN}"
-	newinitd "${FILESDIR}/${P/-/_}_confd" "${PN}"
+	newinitd "${FILESDIR}/${P/-/_}_initd" "${PN}"
+	newconfd "${FILESDIR}/${P/-/_}_confd" "${PN}"
 
 	einfo dodir "/etc/${NAME}"
 	dodir "/etc/${NAME}"
