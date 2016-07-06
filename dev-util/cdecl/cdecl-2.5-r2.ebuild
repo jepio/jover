@@ -31,6 +31,8 @@ src_unpack() {
 	cd "${S}"
 	epatch "${FILESDIR}/${P}.patch"
 	epatch "${FILESDIR}/${P}-implicit-pointer.patch"
+	epatch "${FILESDIR}/${P}_570454_1.patch"
+	epatch "${FILESDIR}/${P}_570454_2.patch"
 }
 
 src_compile() {

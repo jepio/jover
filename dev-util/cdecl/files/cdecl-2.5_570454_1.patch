@@ -1,0 +1,52 @@
+From: Vladimir Homutov <vl409@yandex.ru>
+Date: 1466163543 +0300
+Subject: misc readline fixes
+
+ - fixes the build without readline
+ - removes deprecated Function and CPPFunction casts
+ - const fixes to comply with modern readline
+
+diff --git a/cdecl.c b/cdecl.c
+--- a/cdecl.c
++++ b/cdecl.c
+@@ -94,7 +94,7 @@ void free(), exit(), perror();
+   char * mygetline();
+   char ** attempt_completion(char *, int, int);
+   char * keyword_completion(char *, int);
+-  char * command_completion(char *, int);
++  char * command_completion(const char *, int);
+ #endif
+ 
+ /* maximum # of chars from progname to display in prompt */
+@@ -204,7 +204,10 @@ int DebugFlag = 0;		/* -d, output debugg
+ #define ANSI	4	/* combo not allowed anymore in ANSI compiler */
+ #define A	ANSI
+ 
++#if defined(USE_READLINE)
+ extern char **completion_matches PARAMS((char *, rl_compentry_func_t *));
++#endif
++
+ /* This is an lower left triangular array. If we needed */
+ /* to save 9 bytes, the "long" row can be removed. */
+ char crosscheck[9][9] = {
+@@ -405,7 +408,7 @@ char ** attempt_completion(char *text, i
+   return matches;
+ }
+ 
+-char * command_completion(char *text, int flag)
++char * command_completion(const char *text, int flag)
+ {
+   static int index, len;
+   char *command;
+@@ -1252,8 +1255,8 @@ char **argv;
+ 
+ #ifdef USE_READLINE
+     /* install completion handlers */
+-    rl_attempted_completion_function = (CPPFunction *)attempt_completion;
+-    rl_completion_entry_function = (Function *)keyword_completion;
++    rl_attempted_completion_function = (rl_completion_func_t *) attempt_completion;
++    rl_completion_entry_function = (rl_compentry_func_t *) keyword_completion;
+ #endif
+ 
+     setprogname(argv[0]);
+

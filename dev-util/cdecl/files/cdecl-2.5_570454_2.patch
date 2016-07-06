@@ -1,0 +1,137 @@
+From: Vladimir Homutov <vl409@yandex.ru>
+Date: 1466163559 +0300
+Subject: Modern compilers fixes.
+
+ - 'restrict' is a keyword
+ - decrease warnings count: dangling else's, undeclared functions, missing
+   headers
+
+diff --git a/cdecl.c b/cdecl.c
+--- a/cdecl.c
++++ b/cdecl.c
+@@ -90,11 +90,13 @@ void free(), exit(), perror();
+ 
+ #ifdef USE_READLINE
+ # include <readline/readline.h>
++# include <readline/history.h>
+   /* prototypes for functions related to readline() */
+   char * mygetline();
+   char ** attempt_completion(char *, int, int);
+   char * keyword_completion(char *, int);
+   char * command_completion(const char *, int);
++int dotmpfile_from_string(char *s);
+ #endif
+ 
+ /* maximum # of chars from progname to display in prompt */
+@@ -245,7 +247,7 @@ struct
+ /* for unsupported combinations of types. */
+ void mbcheck()
+ {
+-    register int i, j, restrict;
++    register int i, j, cd_restrict;
+     char *t1, *t2;
+ 
+     /* Loop through the types */
+@@ -262,26 +264,26 @@ void mbcheck()
+ 		if (!(modbits & crosstypes[j].bit))
+ 		    continue;
+ 		/* check the type of restriction */
+-		restrict = crosscheck[i][j];
+-		if (restrict == ALWAYS)
++		cd_restrict = crosscheck[i][j];
++		if (cd_restrict == ALWAYS)
+ 		    continue;
+ 		t1 = crosstypes[i].name;
+ 		t2 = crosstypes[j].name;
+-		if (restrict == NEVER)
++		if (cd_restrict == NEVER)
+ 		    {
+ 		    notsupported("", t1, t2);
+ 		    }
+-		else if (restrict == RITCHIE)
++		else if (cd_restrict == RITCHIE)
+ 		    {
+ 		    if (RitchieFlag)
+ 			notsupported(" (Ritchie Compiler)", t1, t2);
+ 		    }
+-		else if (restrict == PREANSI)
++		else if (cd_restrict == PREANSI)
+ 		    {
+ 		    if (PreANSIFlag || RitchieFlag)
+ 			notsupported(" (Pre-ANSI Compiler)", t1, t2);
+ 		    }
+-		else if (restrict == ANSI)
++		else if (cd_restrict == ANSI)
+ 		    {
+ 		    if (!RitchieFlag && !PreANSIFlag)
+ 			notsupported(" (ANSI Compiler)", t1, t2);
+@@ -290,7 +292,7 @@ void mbcheck()
+ 		    {
+ 		    (void) fprintf (stderr,
+ 			"%s: Internal error in crosscheck[%d,%d]=%d!\n",
+-			progname, i, j, restrict);
++			progname, i, j, cd_restrict);
+ 		    exit(1); /* NOTREACHED */
+ 		    }
+ 		}
+@@ -418,7 +420,7 @@ char * command_completion(const char *te
+     len = strlen(text);
+   }
+ 
+-  while (command = commands[index]) {
++  while ((command = commands[index])) {
+     index++;
+     if (!strncmp(command, text, len)) return strdup(command);
+   }
+@@ -439,7 +441,7 @@ char * keyword_completion(char *text, in
+   }
+ 
+   if (set) {
+-    while (option = options[index]) {
++    while ((option = options[index])) {
+       index++;
+       if (!strncmp(option, text, len)) return strdup(option);
+     }
+@@ -459,7 +461,7 @@ char * keyword_completion(char *text, in
+         return strdup("into");
+       else
+         return strdup("int");
+-    } else while (keyword = keywords[index]) {
++    } else while ((keyword = keywords[index])) {
+       index++;
+       if (!strncmp(keyword, text, len)) return strdup(keyword);
+     }
+@@ -1103,7 +1105,7 @@ char *name, *storage, *left, *right, *ty
+ void dodexplain(storage, constvol, type, decl)
+ char *storage, *constvol, *type, *decl;
+ {
+-    if (type && (strcmp(type, "void") == 0))
++    if (type && (strcmp(type, "void") == 0)) {
+ 	if (prev == 'n')
+ 	    unsupp("Variable of type void",
+ 		   "variable of type pointer to void");
+@@ -1113,6 +1115,7 @@ char *storage, *constvol, *type, *decl;
+ 	else if (prev == 'r')
+ 	    unsupp("reference to type void",
+ 		   "pointer to void");
++    }
+ 
+     if (*storage == 'r')
+ 	switch (prev)
+@@ -1135,13 +1138,14 @@ char *storage, *constvol, *type, *decl;
+ void docexplain(constvol, type, cast, name)
+ char *constvol, *type, *cast, *name;
+ {
+-    if (strcmp(type, "void") == 0)
++    if (strcmp(type, "void") == 0) {
+ 	if (prev == 'a')
+ 	    unsupp("array of type void",
+ 		   "array of type pointer to void");
+ 	else if (prev == 'r')
+ 	    unsupp("reference to type void",
+ 		   "pointer to void");
++    }
+     (void) printf("cast %s into %s", name, cast);
+     if (strlen(constvol) > 0)
+ 	    (void) printf("%s ", constvol);
+
