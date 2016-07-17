@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-EAPI="5"
+EAPI="6"
 
 MY_PV=${PV/_/}
 MY_P=${PN}-${MY_PV}
@@ -37,6 +37,12 @@ RDEPEND="${DEPEND}
 	') )"
 
 S="${WORKDIR}/${MY_P}"
+PATCHES=( "${FILESDIR}/${P%%_*}-tinfo.patch" )
+
+src_prepare() {
+	default
+	eautoreconf
+}
 
 src_configure() {
 	local myeconfargs=(
