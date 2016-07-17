@@ -8,7 +8,7 @@ MY_PV=${PV/_/}
 MY_P=${PN}-${MY_PV}
 
 PYTHON_COMPAT=( python2_7 )
-inherit eutils multilib python-any-r1
+inherit eutils autotools multilib python-any-r1
 
 DESCRIPTION="tinc is an easy to configure VPN implementation"
 HOMEPAGE="http://www.tinc-vpn.org/"
@@ -39,24 +39,26 @@ RDEPEND="${DEPEND}
 S="${WORKDIR}/${MY_P}"
 
 src_configure() {
-	econf \
-		--enable-jumbograms \
-		--disable-silent-rules \
-		--disable-tunemu  \
-		--with-systemd=/usr/$(get_libdir)/systemd/system \
-		$(use_enable lzo) \
-		$(use_enable ncurses curses) \
-		$(use_enable readline) \
-		$(use_enable uml) \
-		$(use_enable vde) \
-		$(use_enable zlib) \
-		$(use_with ssl openssl) \
+	local myeconfargs=(
+		--enable-jumbograms
+		--disable-silent-rules
+		--disable-tunemu
+		--with-systemd=/usr/$(get_libdir)/systemd/system
+		$(use_enable lzo)
+		$(use_enable ncurses curses)
+		$(use_enable readline)
+		$(use_enable uml)
+		$(use_enable vde)
+		$(use_enable zlib)
+		$(use_with ssl openssl)
 		$(use_enable upnp miniupnpc )
-		#--without-libgcrypt \
+		#--without-libgcrypt
+	)
+	econf ${myeconfargs[*]}
 }
 
 src_install() {
-	emake DESTDIR="${D}" install
+	emake DESTDIR=${D} install
 	dodir /etc/tinc
 	dodoc AUTHORS NEWS README THANKS
 	doconfd "${FILESDIR}"/tinc.networks
