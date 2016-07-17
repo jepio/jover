@@ -1,0 +1,13 @@
+--- a/m4/curses.m4	2015-07-04 17:34:15.000000000 +0200
++++ b/m4/curses.m4	2016-07-17 12:54:53.295662779 +0200
+@@ -38,6 +38,10 @@ AC_DEFUN([tinc_CURSES],
+         [AC_MSG_ERROR("curses libraries not found.")]
+       )]
+     )
++    AC_SEARCH_LIBS([wtimeout], [ncurses curses tinfo],,
++      AC_ERROR([wtimeout not found in any library])
++    )
++
+   ])
+ 
+   AC_SUBST(CURSES_LIBS)
