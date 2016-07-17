@@ -51,7 +51,7 @@ src_configure() {
 		$(use_enable vde) \
 		$(use_enable zlib) \
 		$(use_with ssl openssl) \
-		$(use_with upnp miniupnpc )
+		$(use_enable upnp miniupnpc )
 		#--without-libgcrypt \
 }
 
