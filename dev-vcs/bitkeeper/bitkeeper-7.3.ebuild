@@ -43,5 +43,4 @@ src_install() {
 	emake V=1 INSTALLED_BK= BINDIR="${EPREFIX}/usr/libexec/bitkeeper" \
 		DESTDIR="${D}" install
 	dosym "/usr/libexec/bitkeeper/bk" "/usr/bin/bk"
-	dosym "/usr/libexec/bitkeeper/gui/bin/bkgui" "/usr/bin/bkgui"
 }
