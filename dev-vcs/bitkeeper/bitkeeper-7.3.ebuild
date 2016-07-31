@@ -19,10 +19,10 @@ DEPEND="
 	app-arch/lz4
 	dev-util/gperf
 	dev-lang/tk
-	dev-libs/libprce
+	dev-libs/libpcre
 	dev-libs/libtomcrypt
 	dev-libs/libtommath
-	sys-app/groff
+	sys-apps/groff
 	sys-devel/bison
 	sys-devel/flex
 	sys-libs/zlib"
