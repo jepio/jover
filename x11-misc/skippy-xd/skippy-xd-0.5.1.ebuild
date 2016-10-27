@@ -28,19 +28,23 @@ RDEPEND="
 DEPEND="${RDEPEND}
 	virtual/pkgconfig"
 
-MAKE_STRING="SKIPPYXD_VERSION=${PV} PREFIX=${EPREFIX}/usr \
-	$(usex xinerama "" CFG_NO_XINERAMA=1) \
-	$(usex png "" CFG_NO_PNG=1) \
-	$(usex jpeg "" CFG_NO_JPEG=1) \
-	$(usex gif "" CFG_NO_GIF=1)"
+
+config_str() {
+	local MAKE_STRING="SKIPPYXD_VERSION=${PV} PREFIX=${EPREFIX}/usr \
+		$(usex xinerama "" CFG_NO_XINERAMA=1) \
+		$(usex png "" CFG_NO_PNG=1) \
+		$(usex jpeg "" CFG_NO_JPEG=1) \
+		$(usex gif "" CFG_NO_GIF=1)"
+	echo ${MAKE_STRING}
+}
 
 src_compile() {
 	tc-export CC
-	emake ${MAKE_STRING}
+	emake $(config_str)
 }
 
 src_install() {
-	emake ${MAKE_STRING} DESTDIR="${D}" install
+	emake $(config_str) DESTDIR="${D}" install
 	dodoc CHANGELOG
 }
 
