@@ -86,7 +86,7 @@ src_configure() {
 		-DUSE_FSAL_GLUSTER=$(usex ganesha_fs_glusterfs)
 		-DUSE_FSAL_GPFS=$(usex ganesha_fs_gpfs)
 		-DUSE_FSAL_NULL=$(usex ganesha_fs_null)
-		-DUSE_FSAL_PanFS=$(usex ganesha_fs_panfs)
+		-DUSE_FSAL_PANFS=$(usex ganesha_fs_panfs)
 		-DUSE_FSAL_PROXY=$(usex ganesha_fs_proxy)
 		-DUSE_FSAL_RGW=$(usex ganesha_fs_rgw)
 		-DUSE_FSAL_VFS=$(usex ganesha_fs_vfs)
