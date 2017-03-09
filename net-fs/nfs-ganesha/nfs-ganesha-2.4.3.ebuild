@@ -23,7 +23,7 @@ REQUIRED_USE="gui? ( tools )"
 RDEPEND="
 	dev-libs/jemalloc
 	net-libs/libnfsidmap
-	net-libs/ntirpc[rdma?,rpcsec_gss]
+	net-libs/ntirpc[rdma?,gssapi]
 	virtual/krb5
 	dbus? ( sys-apps/dbus )
 	ganesha_fs_ceph? ( sys-cluster/ceph )
