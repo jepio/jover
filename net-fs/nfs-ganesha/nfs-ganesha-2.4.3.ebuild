@@ -112,6 +112,6 @@ src_configure() {
 
 src_install() {
 	cmake-utils_src_install
-	doinitd "${FILESDIR}"/${PN}.init
-	doconfd "${FILESDIR}"/${PN}.confd
+	newinitd "${FILESDIR}"/${PN}.init ${PN}
+	newconfd "${FILESDIR}"/${PN}.confd ${PN}
 }
