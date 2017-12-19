@@ -16,25 +16,29 @@ inherit eutils cdrom games
 LANGUAGES="linguas_fr linguas_it linguas_es linguas_de linguas_en"
 
 MY_PV=${PV//.}
-CLIENT_BASEURL="http://nwdownloads.bioware.com/neverwinternights/linux"
-UPDATE_BASEURL="http://files.bioware.com/neverwinternights/updates/linux"
+URL1="http://lvlt.bioware.cdn.ea.com/bioware/u/f/eagames/bioware/neverwinternights/updates/linux"
+URL2="http://na.llnet.bioware.cdn.ea.com/u/f/eagames/bioware/neverwinternights/updates/linux"
 
-NOWIN_SRC_URI="${UPDATE_BASEURL}/nwresources${MY_PV}.tar.gz
-	http://bsd.mikulas.com/nwresources${MY_PV}.tar.gz
-	http://163.22.12.40/FreeBSD/distfiles/nwresources${MY_PV}.tar.gz"
+NOWIN_SRC_URI="${URL1}/nwresources${MY_PV}.tar.gz
+	${URL2}/nwresources${MY_PV}.tar.gz"
 
 LINGUAS_SRC_URI="linguas_fr? (
-		${UPDATE_BASEURL}/nwfrench${MY_PV}.tar.gz )
+		${URL1}/nwfrench${MY_PV}.tar.gz
+		${URL2}/nwfrench${MY_PV}.tar.gz )
 	linguas_it? (
-		${UPDATE_BASEURL}/nwitalian${MY_PV}.tar.gz )
+		${URL1}/nwitalian${MY_PV}.tar.gz
+		${URL2}/nwitalian${MY_PV}.tar.gz )
 	linguas_es? (
-		${UPDATE_BASEURL}/nwspanish${MY_PV}.tar.gz )
+		${URL1}/nwspanish${MY_PV}.tar.gz
+		${URL2}/nwspanish${MY_PV}.tar.gz )
 	linguas_de? (
-		${UPDATE_BASEURL}/nwgerman${MY_PV}.tar.gz )"
+		${URL1}/nwgerman${MY_PV}.tar.gz
+		${URL2}/nwgerman${MY_PV}.tar.gz )"
 
 DESCRIPTION="Neverwinter Nights Data Files"
 HOMEPAGE="http://nwn.bioware.com/downloads/linuxclient.html"
-SRC_URI="${CLIENT_BASEURL}/${MY_PV}/nwclient${MY_PV}.tar.gz
+SRC_URI="${URL1}/nwclient${MY_PV}.tar.gz
+	${URL2}/nwclient${MY_PV}.tar.gz
 	nowin? ( ${NOWIN_SRC_URI} ${LINGUAS_SRC_URI} )
 	!nowin? ( cdinstall? ( ${LINGUAS_SRC_URI} ) )
 	mirror://gentoo/nwn.png"

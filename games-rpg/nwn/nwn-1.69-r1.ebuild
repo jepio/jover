@@ -5,14 +5,15 @@ EAPI=5
 inherit eutils games
 
 MY_PV=${PV//.}
-PATCH_URL_BASE=http://files.bioware.com/neverwinternights/updates/linux/${MY_PV}/English_linuxclient${MY_PV}_
+PATCH_URL_BASE1=http://na.llnet.bioware.cdn.ea.com/u/f/eagames/bioware/neverwinternights/updates/linux/${MY_PV}/English_linuxclient${MY_PV}_
+PATCH_URL_BASE2=http://lvlt.bioware.cdn.ea.com/bioware/u/f/eagames/bioware/neverwinternights/updates/linux/${MY_PV}/English_linuxclient${MY_PV}_
 
 DESCRIPTION="role-playing game set in a huge medieval fantasy world of Dungeons and Dragons"
 HOMEPAGE="http://nwn.bioware.com/downloads/linuxclient.html"
 SRC_URI="https://dev.gentoo.org/~calchan/distfiles/nwn-libs-1.tar.bz2
-	!sou? ( !hou? ( ${PATCH_URL_BASE}orig.tar.gz ) )
-	sou? ( !hou? ( ${PATCH_URL_BASE}xp1.tar.gz ) )
-	hou? ( ${PATCH_URL_BASE}xp2.tar.gz )"
+	!sou? ( !hou? ( ${PATCH_URL_BASE1}orig.tar.gz ${PATCH_URL_BASE2}orig.tar.gz ) )
+	sou? ( !hou? ( ${PATCH_URL_BASE1}xp1.tar.gz ${PATCH_URL_BASE2}xp1.tar.gz ) )
+	hou? ( ${PATCH_URL_BASE1}xp2.tar.gz ${PATCH_URL_BASE2}xp2.tar.gz )"
 
 LICENSE="NWN-EULA"
 SLOT="0"
