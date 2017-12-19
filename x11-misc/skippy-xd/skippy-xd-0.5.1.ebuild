@@ -7,7 +7,7 @@ inherit eutils toolchain-funcs
 
 DESCRIPTION="A full-screen task-switcher providing Apple Expose-like functionality with various WMs"
 HOMEPAGE="http://code.google.com/p/skippy-xd/"
-SRC_URI="https://github.com/jepio/${PN}/archive/v${PV}.tar.gz"
+SRC_URI="https://github.com/jepio/${PN}/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -18,7 +18,7 @@ RDEPEND="
 	xinerama? ( x11-libs/libXext x11-libs/libXinerama )
 	png? ( sys-libs/zlib media-libs/libpng:0 )
 	jpeg? ( virtual/jpeg:0 )
-	gif? ( media-libs/giflib[X] )
+	gif? ( media-libs/giflib )
 	x11-libs/libX11
 	x11-libs/libXft
 	x11-libs/libXrender
