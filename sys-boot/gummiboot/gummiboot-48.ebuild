@@ -36,6 +36,9 @@ pkg_setup(){
 src_prepare(){
 	eautoreconf
 }
+src_compile(){
+	emake EFI_CFLAGS="-std=gnu90"
+}
 
 pkg_postinst(){
 	einfo	"To use ${PN}, excute"
