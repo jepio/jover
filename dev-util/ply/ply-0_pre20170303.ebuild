@@ -7,7 +7,7 @@ inherit autotools linux-info
 
 DESCRIPTION="Dynamic instrumentation of the Linux kernel with BPF and kprobes"
 HOMEPAGE="https://github.com/iovisor/ply"
-EGIT_COMMIT="cfc56c789ad1eff1080ecb0dad18d009b91ae8ea"
+EGIT_COMMIT="9e810b157ba079c32c430a7d4c6034826982056e"
 SRC_URI="https://github.com/iovisor/ply/archive/${EGIT_COMMIT}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-2"
