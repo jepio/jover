@@ -15,6 +15,8 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
 
+HDEPEND="app-text/ronn"
+
 S=${WORKDIR}/${PN}-${EGIT_COMMIT}
 
 pkg_pretend() {
@@ -52,7 +54,13 @@ src_configure() {
 	econf "${econf_args[@]}"
 }
 
+src_compile() {
+	default
+	ronn -r man/ply.1.ronn
+}
+
 src_install() {
 	default
 	rm -f "${ED}/usr/share/doc/${P}/COPYING"
+	doman man/ply.1
 }
