@@ -1,0 +1,42 @@
+From bbbd75c688b94f8814ce9d65e1808a60e216d59e Mon Sep 17 00:00:00 2001
+From: Jeremi Piotrowski <jeremi.piotrowski@gmail.com>
+Date: Sun, 15 Mar 2020 10:03:27 +0100
+Subject: [PATCH] Makefile.am: follow standard convention for doc install dir
+
+---
+ Makefile.am     | 4 +---
+ doc/Makefile.am | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/Makefile.am b/Makefile.am
+index f0cd168..f701248 100644
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -7,8 +7,6 @@ SUBDIRS = 				\
+ 	skeletons examples \
+ 	doc tests asn1c
+ 
+-docsdir = $(datadir)/doc/asn1c
+-
+-docs_DATA = README.md INSTALL.md FAQ ChangeLog BUGS TODO
++dist_doc_DATA = README.md INSTALL.md FAQ ChangeLog BUGS TODO
+ 
+ EXTRA_DIST = README.md INSTALL.md FAQ LICENSE BUGS
+diff --git a/doc/Makefile.am b/doc/Makefile.am
+index aa462b7..be5e8d8 100644
+--- a/doc/Makefile.am
++++ b/doc/Makefile.am
+@@ -1,9 +1,7 @@
+ 
+ SUBDIRS = docsrc man
+ 
+-docsdir = $(datadir)/doc/asn1c
+-
+-docs_DATA = $(srcdir)/asn1c-*.pdf
++dist_doc_DATA = $(srcdir)/asn1c-*.pdf
+ 
+ EXTRA_DIST = $(srcdir)/asn1c-*.pdf
+ 
+-- 
+2.25.1
+
